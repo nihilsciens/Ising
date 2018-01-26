@@ -2,16 +2,12 @@
 
 % Antal noder (måste vara en kvadrat).
 n = 100;
-
 % Sidlängd på matrisen
 N = sqrt(n);
-
 % Matrisen som huserar noderna
 A = zeros(N,N);
-
 % Hamiltonianen
 H = 0;
-
 % Coupling-parametern
 J = 1;
 
