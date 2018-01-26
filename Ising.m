@@ -1,17 +1,18 @@
 %% Definitioner
 
 % Antal noder (måste vara en kvadrat).
-n = 100;
+n = 2500;
+% Coupling-parametern
+J = 1;
+
+%% Isingmodellen (instansiering)
+
 % Sidlängd på matrisen
 N = sqrt(n);
 % Matrisen som huserar noderna
 A = zeros(N,N);
 % Hamiltonianen
 H = 0;
-% Coupling-parametern
-J = 1;
-
-%% Isingmodellen (instansiering)
 
 % Gör bakgrunden vit
 fill([1 N+1 N+1 1],[1 1 N+1 N+1],'w')
@@ -50,10 +51,17 @@ for x=1:N
         if y < N
             H = H + y*A(x,y)*A(x,y+1);
         end
+        if y > 1
+            H = H + y*A(x,y)*A(x,y-1);
+        end
         if x < N
         	H = H + y*A(x,y)*A(x+1,y);
+        end
+        if x > 1
+        	H = H + y*A(x,y)*A(x-1,y);
         end
     end
 end
 
 %% Monte Carlo simulering
+
