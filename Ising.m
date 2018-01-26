@@ -27,26 +27,32 @@ end
 % Instantiera slumpmässig matris
 % Röd färg: 1
 % Blå färg: -1
-% Vit färg: 0
+% "Vit färg: 0"
 
-for i=0:N-1
-    for j=0:N-1
+for x=0:N-1
+    for y=0:N-1
         rnd = unidrnd(2,1,1);
         if rnd == 1
-            A(i+1,j+1) = 1; 
-            fill([i i+1 i+1 i],[j j j+1 j+1],'r')
+            A(x+1,y+1) = 1; 
+            fill([x x+1 x+1 x],[y y y+1 y+1],'r')
         end
         if rnd == 2
-            A(i+1,j+1) = -1;
-            fill([i i+1 i+1 i],[j j j+1 j+1],'b')
+            A(x+1,y+1) = -1;
+            fill([x x+1 x+1 x],[y y y+1 y+1],'b')
         end
     end
 end
 
 % Beräkna Hamiltonianen
-for i=0:N-1
-    for j=1:0-1
-        H += 
+for x=1:N
+    for y=1:N
+        % Här sker operation för varje nod
+        if y < N
+            H = H + y*A(x,y)*A(x,y+1);
+        end
+        if x < N
+        	H = H + y*A(x,y)*A(x+1,y);
+        end
     end
 end
 
