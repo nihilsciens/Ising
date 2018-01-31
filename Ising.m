@@ -7,7 +7,7 @@ numSpinsPerDim = 100;
 probSpinUp = 0.5;
 spin = sign(probSpinUp - rand(numSpinsPerDim, numSpinsPerDim));
 kT = 10;
-
+%% test
 %% Metropolis algorithm
 i = 0;
 numIters = 10^10 * numel(spin);
@@ -36,7 +36,7 @@ for iter = 1 : numIters
     if dE <= 0 || rand() <= prob
         spin(row, col) = - spin(row, col);
     end
-    
+    % hej
     % DRAW
     if(mod(iter, 100) == 0)
         imagesc(spin)
