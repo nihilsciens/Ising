@@ -36,11 +36,13 @@ end
 % Personal input %
 %%%%%%%%%%%%%%%%%%
 % Iterations
-iter = 10^7;
+iter = 10^5;
 % Taking averages
 per = 10^2;
 % Step length
 h = 5;
+% Decrement factor
+g = 0.75;
 
 %%%%%%%%%%%%%%%%%%%
 % Initializations %
@@ -60,7 +62,9 @@ end
 % Layer error
 dl = cell(L,1);
 % Cost function
-C = zeros(iter,1);
+C = zeros(iter/per,1);
+% Accuracies
+Acc = zeros(iter/per,1);
 % Bias average differential
 DB = cell(L-1,1);
 for i=1:L-1
@@ -75,8 +79,10 @@ end
 %%%%%%%%%%%%%%%%%
 % Prepare graph %
 %%%%%%%%%%%%%%%%%
-clf
-hold on
+figure(1)
+clf, hold on
+figure(2)
+clf, hold on
 
 %%%%%%%%%%%%%%%%%
 % The algorithm %
@@ -153,16 +159,41 @@ for x=1:iter
         % Calculate cost function
         C(x/per) = f_cost(A{L}, Y);
 
+        %%%%%%%%%%%%
+        % Accuracy %
+        %%%%%%%%%%%%
+        % Determine accuracy
+        index = max([x/per-1, 1]);
+        Acc(x/per) = Acc(index) * (x/per-1) * (1-g);
+        if sum(round(A{L}) == Y) == 2
+            Acc(x/per) = Acc(x/per) + 1 * g;
+        end
+        Acc(x/per) = Acc(x/per) / ((index) * (1-g) + 1 * g);
+        
         %%%%%%%%%%%%%%%%%%%%%%%
         % Continuous plotting %
         %%%%%%%%%%%%%%%%%%%%%%%
         % Add next point on graph
-        scatter(x/per,C(x/per))
-        drawnow limitrate
-        axis([0 x/per 0 1])
+        %figure(1)
+        %scatter(x/per,C(x/per))
+        %axis([0 x/per 0 1])
+        %figure(2)
+        %scatter(x/per,Acc(x/per))
+        %axis([0 x/per 0 1])
+        %drawnow limitrate
         
     end
 end
 
+%scatter(1:x/per,C(1:x/per))
+%axis([0 x/per 0 max(C)])
+figure(1)
 scatter(1:x/per,C(1:x/per))
 axis([0 x/per 0 max(C)])
+xlabel('iterationer')
+ylabel('kostnadsfunktion')
+figure(2)
+scatter(1:x/per,Acc(1:x/per))
+axis([0 x/per 0 1])
+xlabel('iterationer')
+ylabel('noggrannhet')
